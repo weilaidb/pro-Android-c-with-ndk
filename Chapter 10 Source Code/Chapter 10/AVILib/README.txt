@@ -1,0 +1,1 @@
+Only the Android.mk file is provided in this directory. As discussed in chapter 10, navigate to http://tcforge.berlios.de/, and download transcode-1.1.5.tar.bz2 for the AVILib source code.
