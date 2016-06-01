@@ -1,10 +1,12 @@
 package com.apress.threads;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ScrollView;
@@ -44,7 +46,8 @@ public class MainActivity extends Activity {
 		startButton = (Button) findViewById(R.id.start_button);
 		logView = (TextView) findViewById(R.id.log_view);
 		scrollView1 = (ScrollView)findViewById(R.id.scrollView1);
-//		logView.setMovementMethod(new ScrollingMovementMethod());
+
+		logView.setMovementMethod(new ScrollingMovementMethod());
 		
 		startButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
@@ -53,7 +56,10 @@ public class MainActivity extends Activity {
 
 				if (threads > 0 && iterations > 0) {
 					startThreads(threads, iterations);
-				}				
+				}	
+				InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);  
+//				imm.showSoftInput(view,InputMethodManager.SHOW_FORCED);  		//强制显示		
+				imm.hideSoftInputFromWindow(view.getWindowToken(), 0);//强制隐藏
 			}			
 		});
 	}
