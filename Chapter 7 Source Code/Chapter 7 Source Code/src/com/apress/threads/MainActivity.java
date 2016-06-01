@@ -2,10 +2,12 @@ package com.apress.threads;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 /**
@@ -25,6 +27,9 @@ public class MainActivity extends Activity {
 	
 	/** Log view. */
 	private TextView logView;
+	
+	/* Scroll view */
+	private ScrollView scrollView1;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -38,6 +43,8 @@ public class MainActivity extends Activity {
 		iterationsEdit = (EditText) findViewById(R.id.iterations_edit);
 		startButton = (Button) findViewById(R.id.start_button);
 		logView = (TextView) findViewById(R.id.log_view);
+		scrollView1 = (ScrollView)findViewById(R.id.scrollView1);
+//		logView.setMovementMethod(new ScrollingMovementMethod());
 		
 		startButton.setOnClickListener(new OnClickListener() {
 			public void onClick(View view) {
@@ -71,6 +78,7 @@ public class MainActivity extends Activity {
 			public void run() {
 				logView.append(message);
 				logView.append("\n");
+				scrollToBottom();
 			}
 		});
 	}
@@ -153,7 +161,20 @@ public class MainActivity extends Activity {
 		}
 	}
 	
+	
+	private void scrollToBottom()
+	{
+		scrollView1.post(new Runnable()
+	    { 
+	        public void run()
+	        { 
+	        	scrollView1.smoothScrollTo(0, logView.getBottom());
+	        } 
+	    });
+	}
+	
+	
 	static {
-		System.loadLibrary("Threads");
+		System.loadLibrary("Threads_test");
 	}
 }

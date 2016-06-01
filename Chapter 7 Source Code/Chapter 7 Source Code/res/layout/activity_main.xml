@@ -32,7 +32,12 @@
     <ScrollView
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:background="#E6E6FA"  
+        android:fadeScrollbars="false"  
+        android:scrollbarAlwaysDrawVerticalTrack="true"  
+        android:fillViewport="true"
+        android:scrollbars="vertical" >
 
         <TextView
             android:id="@+id/log_view"

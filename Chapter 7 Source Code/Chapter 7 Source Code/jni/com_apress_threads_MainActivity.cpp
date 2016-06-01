@@ -134,7 +134,7 @@ void Java_com_apress_threads_MainActivity_nativeWorker (
 	{
 		// Prepare message
 		char message[26];
-		sprintf(message, "Worker %d: Iteration %d", id, i);
+		sprintf(message, "LMR Worker %d: Iteration %d", id, i);
 
 		// Message from the C string
 		jstring messageString = env->NewStringUTF(message);
@@ -148,6 +148,7 @@ void Java_com_apress_threads_MainActivity_nativeWorker (
 
 		// Sleep for a second
 		sleep(1);
+//		usleep(1000);
 	}
 
 	// Unlock mutex
