@@ -5,6 +5,14 @@
 
 #include "com_apress_threads_MainActivity.h"
 
+//log print printlog printdebug tiaoshidayin
+#include <android/log.h>
+#define LOG_TAG "MYJNI"
+#define LOGI(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
+#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, LOG_TAG, __VA_ARGS__)
+#define LOGW(...) __android_log_print(ANDROID_LOG_WARN , LOG_TAG, __VA_ARGS__)
+
+
 // Native worker thread arguments
 struct NativeWorkerArgs
 {
@@ -134,11 +142,14 @@ void Java_com_apress_threads_MainActivity_nativeWorker (
 	{
 		// Prepare message
 		char message[26];
+		memset(message,0, sizeof(message));
 		sprintf(message, "LMR Worker %d: Iteration %d", id, i);
 
 		// Message from the C string
 		jstring messageString = env->NewStringUTF(message);
-
+//		LOGI("message----------: %s" ,  messageString);//jstring not direct print
+		LOGE("message -->:%s" , message);
+//		LOGI("MyJNI is called!");
 		// Call the on native message method
 		env->CallVoidMethod(obj, gOnNativeMessage, messageString);
 

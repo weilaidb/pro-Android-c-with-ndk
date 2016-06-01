@@ -44,7 +44,8 @@ obj/local/armeabi/objs/Threads_test/com_apress_threads_MainActivity.o: \
  D:/Android/android-ndk-r10d/platforms/android-19/arch-arm/usr/include/time.h \
  D:/Android/android-ndk-r10d/platforms/android-19/arch-arm/usr/include/sched.h \
  jni/com_apress_threads_MainActivity.h \
- D:/Android/android-ndk-r10d/platforms/android-19/arch-arm/usr/include/jni.h
+ D:/Android/android-ndk-r10d/platforms/android-19/arch-arm/usr/include/jni.h \
+ D:/Android/android-ndk-r10d/platforms/android-19/arch-arm/usr/include/android/log.h
 
 D:/Android/android-ndk-r10d/platforms/android-19/arch-arm/usr/include/stdio.h:
 
@@ -135,3 +136,5 @@ D:/Android/android-ndk-r10d/platforms/android-19/arch-arm/usr/include/sched.h:
 jni/com_apress_threads_MainActivity.h:
 
 D:/Android/android-ndk-r10d/platforms/android-19/arch-arm/usr/include/jni.h:
+
+D:/Android/android-ndk-r10d/platforms/android-19/arch-arm/usr/include/android/log.h:

@@ -168,15 +168,17 @@ public class MainActivity extends Activity {
 	}
 	
 	
+	//may be is in runnable,died
 	private void scrollToBottom()
 	{
-		scrollView1.post(new Runnable()
-	    { 
-	        public void run()
-	        { 
-	        	scrollView1.smoothScrollTo(0, logView.getBottom());
-	        } 
-	    });
+		scrollView1.smoothScrollTo(0, logView.getBottom());
+//		scrollView1.post(new Runnable()
+//	    { 
+//	        public void run()
+//	        { 
+//	        	scrollView1.smoothScrollTo(0, logView.getBottom());
+//	        } 
+//	    });
 	}
 	
 	
