@@ -141,25 +141,42 @@ void Java_com_apress_threads_MainActivity_nativeWorker (
 	for (jint i = 0; i < iterations; i++)
 	{
 		// Prepare message
-		char message[26];
-		memset(message,0, sizeof(message));
+		char message[256];// may be sizeof(message) overflow,it's may be small
+//		char *message = new char[26];
+
+//		memset(message,0, sizeof(message));
 		sprintf(message, "LMR Worker %d: Iteration %d", id, i);
 
 		// Message from the C string
 		jstring messageString = env->NewStringUTF(message);
+	    if (messageString == NULL) {
+	    	LOGE("messageString is NULL" );
+	        continue;
+	    }
 //		LOGI("message----------: %s" ,  messageString);//jstring not direct print
 		LOGE("message -->:%s" , message);
+
+
 //		LOGI("MyJNI is called!");
 		// Call the on native message method
 		env->CallVoidMethod(obj, gOnNativeMessage, messageString);
+		if (messageString != NULL) {
+			env->DeleteLocalRef(messageString);
+		}
+//		delete (message);
+		/* delete local reference */
+//		(*env)->DeleteLocalRef (env, str);
+
+//		jclass ref= (env)->FindClass("java/lang/String");
+//		env->DeleteLocalRef(ref);
 
 		// Check if an exception occurred
 		if (NULL != env->ExceptionOccurred())
 			break;
 
 		// Sleep for a second
-		sleep(1);
-//		usleep(1000);
+//		sleep(1);
+		usleep(5000);
 	}
 
 	// Unlock mutex
