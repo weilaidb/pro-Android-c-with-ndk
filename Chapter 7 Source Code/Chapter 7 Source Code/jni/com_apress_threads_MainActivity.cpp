@@ -31,6 +31,7 @@ static jobject gObj = NULL;
 
 // Mutex instance
 static pthread_mutex_t mutex;
+static pthread_mutex_t mutex_iter;
 
 jint JNI_OnLoad (JavaVM* vm, void* reserved)
 {
@@ -55,6 +56,19 @@ void Java_com_apress_threads_MainActivity_nativeInit (
 		env->ThrowNew(exceptionClazz, "Unable to initialize mutex");
 		goto exit;
 	}
+	// Initialize mutex_iter
+	if (0 != pthread_mutex_init(&mutex_iter, NULL))
+	{
+		// Get the exception class
+		jclass exceptionClazz = env->FindClass(
+				"java/lang/RuntimeException");
+
+		// Throw exception
+		env->ThrowNew(exceptionClazz, "Unable to initialize mutex_iter");
+		goto exit;
+	}
+
+
 
 	// If object global reference is not set
 	if (NULL == gObj)
@@ -117,6 +131,19 @@ void Java_com_apress_threads_MainActivity_nativeFree (
 		// Throw exception
 		env->ThrowNew(exceptionClazz, "Unable to destroy mutex");
 	}
+
+	// Destory mutex_iter
+	if (0 != pthread_mutex_destroy(&mutex_iter))
+	{
+		// Get the exception class
+		jclass exceptionClazz = env->FindClass(
+				"java/lang/RuntimeException");
+
+		// Throw exception
+		env->ThrowNew(exceptionClazz, "Unable to destroy mutex_iter");
+	}
+
+
 }
 
 void Java_com_apress_threads_MainActivity_nativeWorker (
@@ -136,12 +163,25 @@ void Java_com_apress_threads_MainActivity_nativeWorker (
 		env->ThrowNew(exceptionClazz, "Unable to lock mutex");
 		goto exit;
 	}
+//放置到外面
+	char message[512];// may be sizeof(message) overflow,it's may be small
 
 	// Loop for given number of iterations
 	for (jint i = 0; i < iterations; i++)
 	{
+		// Lock mutex
+		if (0 != pthread_mutex_lock(&mutex_iter))
+		{
+			// Get the exception class
+			jclass exceptionClazz = env->FindClass(
+					"java/lang/RuntimeException");
+
+			// Throw exception
+			env->ThrowNew(exceptionClazz, "Unable to lock mutex_iter");
+			goto exit;
+		}
 		// Prepare message
-		char message[256];// may be sizeof(message) overflow,it's may be small
+//		char message[512];// may be sizeof(message) overflow,it's may be small
 //		char *message = new char[26];
 
 //		memset(message,0, sizeof(message));
@@ -169,7 +209,16 @@ void Java_com_apress_threads_MainActivity_nativeWorker (
 
 //		jclass ref= (env)->FindClass("java/lang/String");
 //		env->DeleteLocalRef(ref);
+		// Unlock mutex
+		if (0 != pthread_mutex_unlock(&mutex_iter))
+		{
+			// Get the exception class
+			jclass exceptionClazz = env->FindClass(
+					"java/lang/RuntimeException");
 
+			// Throw exception
+			env->ThrowNew(exceptionClazz, "Unable to unlock mutex_iter");
+		}
 		// Check if an exception occurred
 		if (NULL != env->ExceptionOccurred())
 			break;

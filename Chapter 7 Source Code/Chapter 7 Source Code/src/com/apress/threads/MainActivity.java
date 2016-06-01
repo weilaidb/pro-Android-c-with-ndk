@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.InputMethodManager;
@@ -82,6 +83,12 @@ public class MainActivity extends Activity {
 	private void onNativeMessage(final String message) {
 		runOnUiThread(new Runnable() {
 			public void run() {
+				if (logView.getText().length() > 10000) {
+					Log.e("MYJAVA---------- " , "getScrollBarSize:" + logView.getText().length() );
+					logView.setText("");
+//					Log.e("MYJAVA----------", "getTextSize over 10000");
+				}
+//				Log.e("MYJAVA---------- " , "getScrollBarSize:" + logView.getText().length() );
 				logView.append(message);
 				logView.append("\n");
 				scrollToBottom();
